@@ -58,7 +58,7 @@ export default function SignUp() {
     };
 	return (
         <section className="grid place-content-center bg-slate-100 py-12 min-h-screen">
-            <div className="w-full my-12 bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-2xl xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+            <div className="w-full my-12 p-4 bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-2xl xl:p-0 dark:bg-gray-800 dark:border-gray-700">
                 <div className="sm:mx-auto sm:w-full sm:max-w-sm">
                     <div className="flex justify-center gap-4">
                         <Icon className="w-8 h-8 dark:text-white" icon="fa-solid:sun" />
