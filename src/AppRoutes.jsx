@@ -5,6 +5,7 @@ import Home from "./pages/home/Home.jsx";
 // *login
 import SignUp from "./pages/signUp/SignUp.jsx";
 import LogIn from "./pages/logIn/LogIn.jsx";
+import ForgetPassword from "./pages/forgetPassword/ForgetPassword.jsx";
 export default function AppRoutes() {
 	const Routes = createBrowserRouter([
 		{
@@ -22,6 +23,10 @@ export default function AppRoutes() {
 				{
 					path: "login",
 					element: <LogIn/>,
+				},
+				{
+					path: "forget-password",
+					element: <ForgetPassword/>,
 				},
 			],
 		},

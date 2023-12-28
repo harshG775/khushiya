@@ -71,7 +71,7 @@ export default function LogIn() {
 									Password
 								</label>
 								<div className="text-sm">
-									<Link href="#" className="font-semibold text-indigo-600 hover:text-indigo-500">
+									<Link to="/forget-password" className="font-semibold text-indigo-600 hover:text-indigo-500">
 										Forgot password?
 									</Link>
 								</div>
