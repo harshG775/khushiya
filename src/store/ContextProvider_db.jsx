@@ -6,6 +6,7 @@ import Reducer_db from "./Reducer_db";
 export default function ContextProvider_db(prop) {
 	const initialState = {
 		isOpen: false,
+        currentUser: null,
 	};
 	return (
 		<Context_db.Provider value={useReducer(Reducer_db, initialState)}>

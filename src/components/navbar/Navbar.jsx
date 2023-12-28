@@ -1,10 +1,49 @@
-import { Link } from "react-router-dom"
+import { Link} from "react-router-dom"
 import { Icon } from "@iconify/react"
+import { useAuth } from "../../hooks/useAuth"
+import { useNavigate } from "react-router-dom"
+import { toast } from 'react-toastify';
+import { useState } from "react";
+
+function NavbarUserIcon() {
+    const {token,logout } = useAuth()
+    const [isOpen, setIsOpen]=useState(false)
+    const navigate = useNavigate();
+    const handleLogout = () => {
+        logout();
+        navigate('/')
+        toast.success("successfully logged out", {position: toast.POSITION.BOTTOM_RIGHT});
+    }
+    if (!token) {
+        return(
+            <Link to={"/login"} className="text-sm  text-blue-600 dark:text-blue-500 hover:underline">Login</Link>
+        )
+    }
+
+    const handleHover=()=>{
+        setIsOpen(!isOpen)
+    }
+    return (
+        <>
+        <div onClick={handleHover} className=" relative group ">
+            <Icon className="text-2xl dark:text-neutral-50" icon={"mingcute:user-4-fill"}/>
+            <div className={`${isOpen?"block":"hidden"} absolute top-12 right-0 z-10  bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700`}>
+                <ul className="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownHoverButton">
+                    <li>
+                        <button onClick={handleLogout} className=" w-full block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                            Sign out
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        </>
+    )
+}
 
 export default function Navbar() {
+
   return (
-
-
     <nav className="bg-white border-gray-200 dark:bg-gray-900">
         <nav className="bg-white border-gray-200 dark:bg-gray-900">
             <div className="flex gap-4 flex-wrap justify-between items-center mx-auto max-w-screen-xl p-4">
@@ -26,7 +65,7 @@ export default function Navbar() {
                 </form>
                 <div className="flex items-center space-x-6 rtl:space-x-reverse">
                     <Link href="tel:5541251234" className="text-sm  text-gray-500 dark:text-white hover:underline">(555) 412-1234</Link>
-                    <Link to={"/login"} className="text-sm  text-blue-600 dark:text-blue-500 hover:underline">Login</Link>
+                    <NavbarUserIcon/>
                 </div>
             </div>
         </nav>

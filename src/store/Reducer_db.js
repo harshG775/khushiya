@@ -1,6 +1,7 @@
 // Reducer_db.jsx
 export const Actions = {
 	TOGGLE_MENU: "toggle_menu",
+    LOGIN: "login",
 };
 export default function Reducer_db(state, { actionType, payload }) {
 	switch (actionType) {
@@ -8,6 +9,11 @@ export default function Reducer_db(state, { actionType, payload }) {
 			return {
 				...state,
 				isOpen: payload,
+			};
+		case Actions.LOGIN:
+			return {
+				...state,
+				user: payload,
 			};
 
 		// default:

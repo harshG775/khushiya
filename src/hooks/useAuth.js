@@ -1,59 +1,55 @@
-import axios from "axios";
+import { BASE_URL } from "../env";
+export const useAuth = () => {
+    const token = JSON.parse(localStorage.getItem('token'));
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
 
-export default function useAuth() {
-	const getCurrentUser = () => {
-		try {
-			const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-			return currentUser || null;
-		} catch (error) {
-			console.error("Error fetching current user:", error);
-			return null;
-		}
-	};
+    const clearLocalStorage = () => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('currentUser');
 
-	const signupUser = async (userData) => {
-		try {
-			// Make a POST request to your signup endpoint
-			const response = await axios.post("your/signup/endpoint", userData);
+    };
 
-			// Save user data to localStorage or handle it based on your server response
-			localStorage.setItem("currentUser", JSON.stringify(response.data));
+    const verifyUser = ({ token, data }) => {
+        clearLocalStorage();
+        localStorage.setItem('token', JSON.stringify(token));
+        localStorage.setItem('currentUser', JSON.stringify(data));
 
-			return true;
-		} catch (error) {
-			console.error("Error signing up user:", error);
-			return false;
-		}
-	};
+    };
 
-	const loginUser = async (credentials) => {
-		try {
-			// Make a POST request to your login endpoint
-			const response = await axios.post(
-				"your/login/endpoint",
-				credentials
-			);
+    async function loginWithEmail(email, password) {
+        const loginData = {
+            email: email,
+            password: password,
+        };
 
-			// Save user data to localStorage or handle it based on your server response
-			localStorage.setItem("currentUser", JSON.stringify(response.data));
+        const res = await fetch(`${BASE_URL}/user/login`, {
+            method: 'POST',
+            headers: new Headers({
+                'Content-Type': 'application/json',
+            }),
+            body: JSON.stringify(loginData),
+        });
 
-			return true;
-		} catch (error) {
-			console.error("Error logging in user:", error);
-			return false;
-		}
-	};
+        const resData = await res.json();
 
-	const logoutUser = () => {
-		try {
-			// Clear user data from localStorage or perform necessary logout actions
-			localStorage.removeItem("currentUser");
-			return true;
-		} catch (error) {
-			console.error("Error logging out user:", error);
-			return false;
-		}
-	};
+        if (!resData.success) {
+            return { error: resData.message };
+        }
 
-	return { getCurrentUser, signupUser, loginUser, logoutUser };
-}
+        return resData;
+    }
+
+    const logout = () => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('currentUser');
+        
+    };
+
+    return {
+        loginWithEmail,
+        logout,
+        verifyUser,
+        currentUser,
+        token,
+    };
+};
